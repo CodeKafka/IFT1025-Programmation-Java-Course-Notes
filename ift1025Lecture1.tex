@@ -772,12 +772,63 @@ Les commandes \entouree[gray]{\texttt{\footnotesize{TypeVoulu.parseTypevoulu}}} 
 	Integer.parseInt("bonjour") // Engendre un erreur a l'execution
 \end{lstlisting}
 \end{EExample*}
+%====================================================================
+% 
+%====================================================================
+\section{Entrées et Sorties}
+\begin{Syntaxe*}{Affichage à l'écran}{}
+On utilise \entouree[gray]{\texttt{\footnotesize{System.out.println}}} pour effectuer un saut à la ligne lors de l'affiche. La commande \entouree[gray]{\texttt{\footnotesize{System.out.print}}} affiche \textit{sans saut à la ligne}. 
+\end{Syntaxe*}
+\begin{Syntaxe*}{Interaction avec l'utilisateur}{}
+La commande \entouree[gray]{\texttt{\footnotesize{args}}} permet d'enregistrer et manipuler des arguments 
+\textit{de la ligne de commande}. La commande \entouree[gray]{\texttt{\footnotesize{Scanner}}} permet la lecture
+de données interactives. 
+\end{Syntaxe*}
 
+\begin{EExample*}{Utilisation d'arguments en ligne de commande}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	public class Hello {
+	    public static void main(String[] args) {
+		// Le code va ici
+		System.out.println("Hello, " + arg[0] + " !");
+		}
+	}
+\end{lstlisting}
+\end{EExample*}
+\begin{note}
+la variable args est un tableau de Strings. Chaque argument présenté au lancement du programme est un
+\textit{String qui est enregistré dans la variable args}. 
+\end{note}
 
+\begin{EExample*}{}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	public class Max {
 
+	    public static void main(String[] args) {
+			int max = -1
+			
+			for (int i=0, i<args.length; i++) {
+				max = Math.max(max, Integer.parseInt(args[i]));
+			}
 
-
-
+			System.out.println("Maxumum=" + max);
+		}
+	}
+	/* Execution :
+	$ javac Max.java
+	$ java Max 1 6 3 1 5 3
+	Maximum=6
+	*/
+\end{lstlisting}
+\end{EExample*}
+%====================================================================
+% 
+%====================================================================
+\
+section{Modèle Mémoire}
+\begin{Concept*}{Mémoire d'un programme}
+Elle est conceptuellement séparée en deux partie : \textit{la pile} et \textit{le tas}.
+\end{Concept*}
 
 
 
