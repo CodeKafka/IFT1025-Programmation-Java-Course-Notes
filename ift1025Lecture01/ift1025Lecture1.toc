@@ -1,0 +1,10 @@
+\babel@toc {french}{}\relax 
+\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Particularité de Java et Python}{2}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Notions Essentielles}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Types Java}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Fonctions Java}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Tableaux Java}{7}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Chaîne de caractères \textit {string}}{8}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Entrées et Sorties}{13}{section.2.5}%
+\contentsfinish 

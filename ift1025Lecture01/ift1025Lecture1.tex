@@ -1,0 +1,855 @@
+\documentclass{report}
+\input{preamble}
+
+\title{\Huge{IFT1025 Programmation 2}\\De Python à Java}
+\author{\huge{Franz Girardin}}
+\date{3 Mai 2023}
+\lstset{inputencoding=utf8/latin1}
+%====================================================================
+
+%====================================================================
+\begin{document}
+
+\maketitle
+
+\newpage
+\pdfbookmark[section]{\contentsname}{toc}
+\tableofcontents
+\pagebreak
+%====================================================================
+% 
+%====================================================================
+\chapter{Introduction}
+
+
+\section{Particularité de Java et Python}
+\begin{Concept*}{Langage statique et langage dynamique}{}
+	\textbf{Java} est un langage statique; la vérification du code est effectuée \textit{lors de la compilation}. 
+	\textbf{Python} est un langage dynamique et la vérification est donc en cours 
+	\textit{tout au long de l'exécution de programme}. 
+\end{Concept*}
+
+\begin{DefG*}{Vérification de code}{}
+	Il s'agit du processus de vérification et d'application des contraintes de types en fonction de la syntaxe
+	permise par le langage. 
+
+\end{DefG*}
+
+
+
+\begin{table}[h]
+		\caption {Comparaison de Python et Java}
+
+	\begin{center}
+		\begin{tabular}{m{7cm}|m{7cm}}
+
+	\arrayrulecolor{blue}\hline
+	\rowcolor{lightBlue}
+	\textcolor{myb}{\bfseries\fontfamily{lmss}\selectfont{Python}} & 
+	\textcolor{myb}{\bfseries\fontfamily{lmss}\selectfont{Java}}
+	\\
+	\hline
+	\arrayrulecolor{black}
+	\footnotesize\textit{\texttt{Langage interprété}}	
+	& 
+	\footnotesize\textit{\texttt{Lanagage compilé}}
+	\\
+	\hline	
+	\footnotesize\textit{\texttt{Typage dynamique}} et faible quantité de type & 
+	\footnotesize\textit{\texttt{Typage statique}} grande variété de types
+	\\
+	\hline
+	\footnotesize\textit{\texttt{Langage tolérant et peu rigide}} & 
+	\footnotesize\textit{\texttt{Langage rigide qui permet peu d'erreurs}}
+	\\
+	\hline
+	\footnotesize\textit{\texttt{Développement plus simple mais exécution plus lente}} & 
+	\footnotesize\textit{\texttt{Développement plus complexe et exécution plus rapide}}
+	\\
+	\hline
+	\end{tabular}
+	\end{center}
+\end{table}
+
+
+\begin{EExample*}{Hello world! en Python}{}
+\begin{lstlisting}[style=PythonDraculaWhite]	
+print("Hello world!")
+\end{lstlisting}
+\end{EExample*}
+
+\begin{EExample*}{Hello world! en Java}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	public class Example {
+		public static void main(String[] args) {
+			System.out.println("Hello world!");
+		}
+	}
+\end{lstlisting}\end{EExample*}
+
+
+\begin{Concept*}{Compilation de Java}
+	Le code Java est d'abord transformé en bytecode—un langage intermédiaire.
+
+\end{Concept*}
+ 
+\noindent Java est un langage de programmation orienté objet. Le code qu'on écrit est donc parti d'une classe; la classe principale—
+\entoure[gray]{\texttt{\footnotesize{main}}} dans ce cas-ci. La classe main a une méthode : \entouree[gray]{\texttt{\footnotesize{public static void main (String[] args) \{...\}}}}. Le programme qu'on écrit est généralement compris entre les crochets de
+la méthode \entouree[gray]{\texttt{\footnotesize{main}}}
+%====================================================================
+% 
+%====================================================================
+\chapter{Notions Essentielles}
+\section{Types Java}
+\begin{DefG*}{Types}{}
+	Un type définit la nature des valeur que peut prendre une donnée et les opérateurs qui peuvent lui être 
+	appliqués. 
+\end{DefG*}
+ 
+
+\begin{note}
+Les programmes qui explicitent les types optimisent le traitement et la vitesse d'exécution du code,
+utilisent moins d'espace mémoire et tendent à engendrer moins d'erreur.
+\end{note}
+
+
+\begin{table}[h]
+		\caption{ Types primitifs Java}
+
+	\begin{center}
+		\begin{tabular}{l|l}
+
+	\arrayrulecolor{blue}\hline
+	\rowcolor{lightBlue}
+	\textcolor{myb}{\fontfamily{lmss}\selectfont{\textbf{Type}}} & 
+	\textcolor{myb}{\fontfamily{lmss}\selectfont{\textbf{Description}}}
+	\\
+	\hline
+	\arrayrulecolor{black}
+	\footnotesize\texttt{short} & \footnotesize\textit{\texttt{Entier encodé sur 16 bits}}  
+	\\
+	\hline	
+	\texttt{\footnotesize{int}} & \footnotesize\textit{\texttt{Entier encodé sur 32 bits}}
+	\\
+	\hline
+	\texttt{\footnotesize{long}} & \footnotesize\textit{\texttt{Entier encodé sur 64 bits}}
+	\\
+	\hline
+	\texttt{\footnotesize{float}} & \footnotesize\textit{\texttt{Nombre à virgule encodé sur 32 bits}}
+	\\
+	\hline
+	\texttt{\footnotesize{double}} & \footnotesize\textit{\texttt{Nombre à virgule encodé sur 64 bits}}
+	\\
+	\hline
+	\texttt{\footnotesize{boolean}} & \footnotesize\textit{\texttt{Valeur de vérité}} 
+	\entouree[gray]{\texttt{\footnotesize{true}}} \footnotesize\textit{\texttt{ou}} 
+	\entouree[gray]{\texttt{\footnotesize{false}}}
+	\\
+	\hline
+	\texttt{\footnotesize{char}} & \footnotesize\textit{\texttt{Caractère textuel unitque}}
+	\\
+	\hline
+	\texttt{\footnotesize{byte}} & \footnotesize\textit{\texttt{Nombre entier de 8 bits}}
+	\\
+	\hline 
+	\end{tabular}
+	\end{center}
+\end{table}
+
+
+\begin{codeRem*}{}{}
+Le type d'une variable est précisé lors de la déclaration. Après la déclaration, le type est immuable. 
+\end{codeRem*}
+
+
+
+\begin{EExample*}{Déclaration de variable en Java}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+// On declare un variable en precisant son type
+int a = 0;
+
+// Formule invalide puisque a precedemment definit ne peut contenir que des entiers
+a = "Bonjour !";
+
+String b = "abc";
+
+// Formule invalide puisque b precedemment definit ne peut etre un booleen
+b = true; 
+\end{lstlisting}
+\end{EExample*}
+
+
+\begin{EExample*}{Déclaration de variable en Python}{}
+\begin{lstlisting}[style=PythonDraculaWhite]
+# Toutes ces operations sont permises 
+a = "Hello World!"
+a = 5
+a = True
+b = False 
+\end{lstlisting}	
+\end{EExample*}
+
+\begin{Remarque*}{Entiers et décimaux}{}
+Par défaut, les nombnres entiers littéraux sont des int et les nombrs décimaux littéraux sont des doubles 
+\end{Remarque*}
+\begin{EExample*}{}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+int age = 25;
+double nombreDecimal = 123456789.0;
+
+// On utilise le suffixe L pour specifier un "long int"
+long grandNombreEntier = 12345678910L
+
+// On utilise le suffixe f pour specifier un float de 32 bits
+float nombreFlottant32bits = 15.3f;
+
+boolean isCoffeeCold = false;
+
+// On utilise le guillemet simple pour specifier un char (caractere textuel unique)
+char caractere = 'a'; 
+
+\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+	Le \textit{résultat des opérations} dépend du types des variables; le résultat peut être arrondis selon le \textbf{type des opérandes} 
+\end{note}
+
+
+\begin{EExample*}{Arithmétique selon le type}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	// Addition et division de deux double
+	double a = 3.0;
+	double b = 2.0;
+
+	System.out.println(a+b); //Affiche 5.0 (un double). 
+
+	System.out.print(a/b); // Affiche 1.5 (un double)
+\end{lstlisting}
+
+\begin{lstlisting}[style=JavaDraculaWhite]
+	// Addition et division de deux int
+	int a = 3;
+	int b = 2;
+
+	System.out.println(a + b) // Affiche 5 (un int)
+
+	System.out.pintln(a/b); // Affiche 1 (un int)
+\end{lstlisting}
+\end{EExample*}
+
+
+
+
+\begin{Syntaxe*}{Changer le type grâce à un cast}{}
+	On peut \textit{forcer le changement d'un type} pour effectuer une opération arithétique en utilisant un \textit{cast}. On précise entre parenthèse le type désiré suivit de la variable à modifier. 
+\end{Syntaxe*}
+
+\begin{EExample*}{}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+int a = 3;
+int b = 2;
+
+/Affiche 1.5
+System.out.println(double) a / (double) b);
+\end{lstlisting}
+\end{EExample*}
+
+
+
+\begin{note}
+Les entiers sont automatiquement convertit vers leur équivalent le plus large si nécessaiere 
+\\
+\texttt{\footnotesize{byte -> short -> int -> long -> float -> double }}
+\end{note}
+
+\begin{EExample*}{Conversion automatique d'un int}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	int a = 3;
+	
+	//, L'entier sera convertit en double pour effectuer l'operation 
+	System.out.println(a / 2.0); //Affiche 1.5
+\end{lstlisting}
+\end{EExample*}
+
+\begin{Syntaxe*}{Forcer un perte de précision grâce à un cast}{}
+	On peut forcer un \textit{type plus précis} à devenir moins précis lors d'un opération toujours en utilisant un cast
+
+
+\end{Syntaxe*}	
+\begin{EExample*}{}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	double c = 3.0
+	double d = 2.0
+
+	/* Afficherait normalement 1.5, car c est un double 
+	et le calcul se ferait sur double */
+	System.out.println(c / 2);
+
+	/* Affiche 1 car les deux opérandes de 
+	la division sont des entiers */
+	System.out.println( (int) c / (int) d); 
+\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+Un cast de \entouree[gray]{\texttt{\footnotesize{float}}} en \entouree[gray]{\texttt{\footnotesize{int}}} a comme effet de tronquer la partie fractionnaire, plutôt que d'arrondir le résultat. 
+\end{note}
+
+\begin{EExample*}{}{}
+	\begin{lstlisting}[style=JavaDraculaWhite]
+		System.out.println((int) 4.6); // Affichera 4
+		System.out.println((int) -4.6); 
+		// Affichera -4 (aurait affiche -5 si cast arrondissait) 
+	\end{lstlisting}
+\end{EExample*}
+
+%====================================================================
+% 
+%====================================================================
+\section{Fonctions Java}
+\begin{Concept*}{Fonction principale}
+	La \textit{première fonction d'un programme Java} est \entoure[gray]{\texttt{\footnotesize{public static void main(String args[])}}}. Elle contient géralement tout le reste du code. 
+\end{Concept*}
+
+\noindent Lorsqu'on déclare une fonction, on doit spécifier le \textit{type des arguments} qu'elle prends et le
+\textit{type de la valeur retournée} par la fonction.
+
+\begin{EExample*}{Fonction de base}{}
+	\begin{lstlisting}[style=JavaDraculaWhite]
+		
+		// La declaration int avant carre indique que la fonction retourne des entiers
+		public static int carre(int x) {
+		    return x * x
+		/* La declaration int entre parenthese et avant le x indique que 
+		la fonction accepte des entiers */
+		}
+	\end{lstlisting}
+\end{EExample*}
+
+\begin{DefG*}{Signature d'une fonction}{}
+	Il s'agit de la combinaison de son nom et du type de ses arguments. La fonction de l'example précédent a
+	comme signature \entoure[gray]{\texttt{\footnotesize{carre(int)}}}.
+\end{DefG*}
+
+\begin{Concept*}{Portée d'une variable}
+	Il s'agit de la partie du programme où la variable est accessible. Une variable locale est un variable définit
+	dans une fonction donnée et accessible uniquement à cette fonction 
+	\textit{ou les éléments faisant parti du bloc de cette fonction}.
+
+\end{Concept*}
+	\begin{DefG*}{Bloc}{}
+	Il s'agit d'une portion de code qui est délémitée par des accolades 
+	\entouree[gray]{\texttt{\footnotesize{\{...\}}}} 
+
+\end{DefG*}
+
+
+\noindent Lorsqu'une fonction ne retourne aucune valeur, on l'indique en écrivant 
+\entouree[gray]{\texttt{\footnotesize{void}}} avant le nom de la fonction. Les fonctions qui ne retournent rien
+sont ne sont pas des fonctions mais plutôt des \textit{procédures}. 
+
+\begin{EExample*}{Fonction sans valeur de retour}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	public static void direBonjour () {
+	System.out.println("Bonjour !");
+	}
+\end{lstlisting}
+\end{EExample*}
+%====================================================================
+% 
+%====================================================================
+\section{Tableaux Java}
+\begin{Syntaxe*}{Création d'un tableau en Java}{}
+	On ne peut avoir qu'un type par tableau en Java. Lorsqu'on déclare le tableau, il faut 
+	\textit{spécifier le type des éléments qu'il contient}. Il faut aussi spécifier la quantité 
+	d'éléments et \textit{manuellement initialiser le tableau}.
+\end{Syntaxe*}
+
+\begin{EExample*}{Initialisation manuelle et automatique d'un tableau Java}{}
+	\begin{lstlisting}[style=JavaDraculaWhite]
+		
+        // La commande new int permet de creer un tableau vide de taille N
+		int[] a = new int[3];
+
+		// On specifie les valeurs a chaque position du tableau 
+		a[0] = 1;
+		a[1] = 2;
+		a[3] = 3;
+        
+		/* On peut aussi initialiser automatiquement avec un tableau litteral
+		Java comprend qu'on veut un tableau de taille 5 */
+		int[] b = {1,2,3,4,5,6}
+	\end{lstlisting}
+\end{EExample*}
+\begin{Remarque*}{Trouver la taille d'un tableau}{}
+On peut déterminer la quantité d'éléments présents dans un 
+tableau en utilisant la commande \entouree[gray]{\texttt{\footnotesize{NomDuTableau.length}}}
+\end{Remarque*}
+\begin{EExample*}{}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	// Génère un tableau d'entiers contenant trois éléments 
+	int [] tab = {10, 20, 30};
+
+    // Affiche 3 (la taille du tableau)
+	System.out.println(tab.length); 
+
+\end{lstlisting}
+\end{EExample*}
+
+
+\begin{Syntaxe*}{Tableau 2D}{}
+Il s'agit d'un tableau dans lequel chaque élément est également un tableau à une dimension.  
+\end{Syntaxe*}
+\begin{EExample*}{Création d'un tableau 2D}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+/* Methode manuelle : on cree un tableau a deux dimensions 
+"[2]" ou chaque element est un tableau de taille 3.*/ 
+   int[][] a = new int[2][5]
+
+/* Methode automatique : Java comprend qu'on veut creer un 
+tableau de taille 2 dans lequel chaque element est un tableau de taile 3 */
+int [][] b = {{1,2,3,} {4,5,6}}
+\end{lstlisting}
+\end{EExample*}
+
+
+
+\begin{note}
+On ne peut pas comparer la taile de deux tableau via
+l'opérateur \entouree[gray]{\texttt{\footnotesize{==}}} ; Java
+considère qu'on veut comparer deux zones mémoires.
+\end{note}
+\begin{Syntaxe*}{Comparaison de tableau}{}
+\entouree[gray]{\texttt{\footnotesize{Arrays.equals(tableau1, tableau2}}} vérifie si \texttt{\footnotesize{tableau1}} a la même taille que \texttt{\footnotesize{tableau2}}.
+
+\entouree[gray]{\texttt{\footnotesize{Arrays.deepEquals(tableau1, tableau2}}} vérifie récursivement \textit{si les tableaux multidimensionnels} on la même taille.
+\end{Syntaxe*}
+
+
+\begin{note}
+On ne peut pas ajouter des éléments à un tableau Java; chaque tableau est de taille fixe. 
+\end{note}
+
+\begin{Syntaxe*}{Ajouter un élément à un tableau}{}
+Dans l'ordre, il faut créer un tableau de taille N + 1; copier
+les N premiers éléments du tableau original; et ajouter un élément de plus.
+\end{Syntaxe*}
+
+
+\begin{EExample*}{Ajout d'élément par création d'un nouveau tableau}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	public static void main(String[] args) {
+	int[] t {10,20,30}; // Cree un tableau de 3 elements
+
+	// Cree un nouveau tableau de 4 elements 
+	int[] temp = new int[t.length + 1];
+
+	//Copie les element existants de t dans temp
+	for(int i=0; i<t.length; i++)
+		temp[i] = t[i];
+
+	// Ajoute l'element desire a la fin du tableau 
+	temp[t.length] = 40;
+	
+	// Assigne la valeur du tableau temp au tableau t
+	t = temp
+\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+Lorsqu'on souhaite retier un élément d'un tableau, le même 
+principe s'applique : Crée un tableau de taille N - 1; 
+copier les N - 1 éléments à conserver dans le nouveau tableau;assigner la valeur du nouveau tableau à l'ancient tableau.
+\end{note}
+
+\section{Chaîne de caractères \textit{string}}
+\begin{Concept*}{Stockage des string}
+	L'enregistrement d'un string en mémoire implique la conversion dudit caractère en chiffre selon un standard—p. ex. ASCII.
+\end{Concept*}
+
+\begin{EExample*}{Création d'un string Java}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	String nom = "Jimmy Whooper";
+	char[] tDeChar = {'1','I', 'F', 'G', '5'};
+\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+L'opérateur \entouree[gray]{\texttt{\footnotesize{+}}} sert 
+autant à l'addition de nombres qu'à la concaténation de Strings
+\end{note}
+
+\begin{EExample*}{Concaténation de Strings}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	String phrase = "Bonjour mon ami.";
+
+	// Affiche : "Bonjour mon ami. Comment vas-tu ?"
+    System.out.println(phrase + " Comment vas-tu ?");
+
+	// Affiche "1020" ; la concatenation des deux Strings.
+	System.out.println("10" + "20");
+\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+Lorsqu'on une des opérandes est de type 
+\texttt{\footnotesize{String}}, l'autre est converti en 
+\texttt{\footnotesize{String}} et l'opération effectuée
+est une concaténation. La valeur résultante est \textit{de type String}.	 
+\end{note}
+
+\begin{EExample*}{Concaténation de String à un int}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	System.out.println(25 + "10"); //Affiche "2510"
+	
+	int b = 123;
+	System.out.println("a" + b); // Affiche "a123"
+\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+On utilise la méthode 
+\entouree[gray]{\texttt{\footnotesize{.length}}} 
+pour retourner le nombre d'éléments d'une chaîne de
+caractères. Un espace vaut \textit{1 caractère}. Le nombre
+retourné est de type int. 
+\end{note}
+
+\begin{EExample*}{Déterminer la taille du chaîne}{}
+	\begin{lstlisting}[style=JavaDraculaWhite]
+		"Allo".length() // vaut 4
+
+		String phrase = "Bonjour mon ami";
+		phrase.length() // vaut 16
+
+		(" 25"+10.;length() // vaut 5 (l'espace est compté)
+	\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+Un String est une chaîne de caractères 
+\entoure[gray]{\texttt{\footnotesize{char}}}.
+Chaque \entouree[gray]{\texttt{\footnotesize{char}}} d'un
+String a un index \textit{en fonction de sa position dans le String}.
+\end{note}
+
+
+\begin{EExample*}{}{}
+	\begin{lstlisting}[style=JavaDraculaWhite]
+		char B = "Nom";
+		// B a le char 'N' en position 0
+		// B a le char 'o' en position 1
+		// B a le char 'm' en position 2
+	\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+On peut obtenir le caractère d'un String \texttt{\footnotesize{s}} à la position \texttt{\footnotesize{i}} grâce à la
+commande \entouree[gray]{\texttt{\footnotesize{s.charAt(i)}}}
+\end{note}
+
+\begin{EExample*}{Obtenir le caractère à une position donnée d'un String}{}
+	\begin{lstlisting}[style=JavaDraculaWhite]
+		"Allo".charAt(0) /* vaut 'A' de type char
+		ne vaut pas "A" qui serait de type String */
+
+		String n = "123"
+		n.charAt(n.length()-1) // vaut '3' (et non pas "3")
+		n.charAt(3) // engendre une erreur ; n'a pas de position 3
+		(n + 0).charAt(3) // vaut '0' (et non "0", ni 0)
+	\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+On peut extraire une partie d'un String grâce à la méthode 
+\entouree[gray]{\texttt{\footnotesize{s.substring(debut, fin)}}}. Le resultat de cette expression est une sous-chaîne de
+\texttt{\footnotesize{s}}.
+\end{note}
+
+\begin{Remarque*}{}{}
+La nouvelle chaîne crée par la commande
+\entouree[gray]{\texttt{\footnotesize{s.substring(debut, fin)}}} comment à la position \texttt{\footnotesize{debut}} et se
+termine avant la position \texttt{\footnotesize{fin}}.
+La longeur de la sous-chaîne est donc \texttt{\footnotesize{fin - debut}}
+\end{Remarque*}
+
+\begin{EExample*}{Création de sous-chaîne}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	//Vaut "onjour"
+	"Bonjour".substring(1,6)
+
+	String salut = "Allo";
+	int pos = 0;
+
+    //Vaut ""
+	salut.substring(pos, pos) 
+	salut.sustring(pos, pos+1) // vaut "A" (et non pas 'A')
+	salut.substring(pos, pos+2) //vaut "Al"
+
+	salut.substring(0, salut.length()-1) // vaut "All"
+	salut.substrong(salut.length()-1, salut.length()) // vaut "o"
+\end{lstlisting}
+\end{EExample*}
+
+
+\begin{EExample*}{Modifier le \entouree[gray]{\texttt{\footnotesize{char}}} d'un String à la position i}{}
+	\begin{lstlisting}[style=JavaDraculaWhite]
+		// Soit i == 1
+		int i = 1;
+
+		String salut2 =  salut.substring(0,i) + 'X' +
+		    salut.substring(i+1, salut.length());
+		// salut2 vaut "AXlo"
+	\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+La méthode \entouree[gray]{\texttt{\footnotesize{.toUpperCase()}}} retourne une version où toutes les miniscules ont été 
+transformées en majuscules. On utilise plutôt \entouree[gray]{\texttt{\footnotesize{.toLowerCase()}}} pour obtenir une
+version où toutes les majuscules sont changées en minuscules. 
+
+\end{note}
+
+\begin{EExample*}{Changement de majuscules et minuscules}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	"BonJour!".toUpperCase() // vaut "BONJOUR!"
+    "BonJour!".toLowerCase() // vaut "bonjour!"
+\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+On ne peut pas comparer deux String via l'opérateur ==; Java
+considère qu'on veut comparer deux zones mémoires. 
+\end{note}
+
+\begin{Syntaxe*}{Comparaison de deux String}{}
+\entouree[gray]{\texttt{\footnotesize{StringA.equals(StringB)}}} permet de comparer la longueur des String \texttt{\footnotesize{A}} et \texttt{\footnotesize{B}}. La case est sensible.
+On utilisera \entouree[gray]{\texttt{\footnotesize{.equalsIgnoreCase()}}} si on ne veut pas que la case soit sensible lors
+de la comparaison. 
+\end{Syntaxe*}
+
+
+\begin{EExample*}{Comparer deux String en Java}{}
+	\begin{lstlisting}[style=JavaDraculaWhite]
+		String a = "gazoline"
+        String b = "gazoline"
+
+        System.out.println(a == b) // Affiche false
+		System.out.println(a.quals(b)); //Affiche true
+	
+		System.out.println(("gaz" + "oline").equals("gazoline"))
+		// Affiche true
+
+		System.out.println("abc".equals("ABC"));
+		// Affiche false ; la case est importante
+		System.out.println("aBc".equals("abc"));
+		// Affiche false
+
+
+		System.out.println("abc".equalsIgnoreCase("ABC"));
+		// Affiche true
+		System.out.println("aBc".equalsIgnoreCase("abc"));
+		// Affiche true
+	\end{lstlisting}
+\end{EExample*}
+
+\begin{DefG*}{Ordre lexicographique}{}
+Il s'agit de l'ordre dans lequel on place un String par 
+rapport à un autre, en fonction de sa valeur—sachant que chaque char qui compose le string a une valeur déterminée par l'ordre alphabétique. 
+\end{DefG*}
+
+\begin{note}
+On peut utiliser la méthode \entouree[gray]{\texttt{\footnotesize{compareTo()}}} pour déterminer quel String précède l'autre.
+\end{note}
+
+\begin{EExample*}{Comparaison de l'ordre lexicographique}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	"ABC".compreTo("ABC")
+	// Vaut 0 puisque les deux String sont identiques 
+
+	"ABC".compareTo("ABZ") 
+	// A une valeur negative puisque C precede Z.
+
+	"ABZ".compareTo("ABC")
+	// Vaut un entier positif, pusique Z > C
+
+	"ABC.compareTo("ABCDEFGH")
+	// Vaut un entier positif puisque "ABZ" est considere
+	comme plus grand que "ABCDEFGH"
+\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+La comparaison lexicographique se fait avec la valeur 
+numérique du code Unicode du caractère coresspondant. L'ordre
+de priorité est le suivant : 
+\texttt{\footnotesize{chifres < lettres majuscules < lettres minuscules}}
+\end{note}
+
+\begin{figure}[H]
+\centering
+
+\includegraphics[width=0.45\linewidth]{StringLexico}
+\end{figure}
+
+\begin{note}
+On peut ignorer la lors de la comparaison grâce à la commande
+\entouree[gray]{\texttt{\footnotesize{compareToIgnoreCase()}}}
+\end{note}
+
+\begin{EExample*}{Comparaison en Ignorant la case}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	"ABc".compareToIgnoreCase("ABZ") 
+	// Vaut 0 puirsque "abc" == "abc"
+\end{lstlisting}
+\end{EExample*}
+
+\begin{Syntaxe*}{Déterminer l'index d'une sous-chaîne}{}
+On peut utiliser la comande \entouree[gray]{\texttt{\footnotesize{.indexOf()}}} pour identifier la position à laquelle on trouve une sous-chaîne X. Si la chapine ne contient pas la
+sous-chaîne recherchée, la commande \textbf{retourne -1}.
+\end{Syntaxe*}
+
+\begin{EExample*}{}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	/* Soit une chaine ; pour trouver la positon de X = jour
+	dans la chaîne on utilise : */
+	"Bonjour Monsieur!".indexOf("jour") 
+	// Vaut 3 (int); jour débute  à la position 3 du String.
+	"Bonjour Monsieur!".indexOf("jours")
+	// Vaut -1 ; la sous-chaine n'existe pas
+\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+On peut spécifier la position à partir de laquelle il faut chercher l'index en fournissant \textit{second paramètre} à la commande \entouree[gray]{\texttt{\footnotesize{String.indexOf()}}}
+\end{note}
+
+\begin{EExample*}{Trouver l'index en spécifiant le début de la sous-chaîne}{}
+	\begin{lstlisting}[style=JavaDraculaWhite]
+		"Bonjour Monsieur!".indexOf("on",0)
+		//Vaut 1
+		"Bonjour Monsieur!".indexOf("on", 5) 
+		// Vaut 9 ; le premier "on" trouve a partir de la position 5
+		"Bonjour Monsieur!".indexOf("on", 10) 
+		// Vaut -1 ; "on" est introuvable apres la position 10.
+	\end{lstlisting}
+\end{EExample*}
+
+\begin{note}
+On peut également utiliser un \texttt{\footnotesize{char}} 
+à la place d'un \texttt{\footnotesize{String}} pour
+effectuer la recherche. Exemple \entouree[gray]{\texttt{\footnotesize{"Bonjour".indexOf('j') $\leftrightarrow$ \\
+"Bonjour".indexOf("j")}}}
+\end{note}
+
+\begin{Syntaxe*}{Convertir un type primitif en entier}{}
+On \textbf{ne peut pas} utiliser de cast. Il faut utiliser la formule \entouree[gray]{\texttt{\footnotesize{valeur + ""}}}. 
+Alternativement, on peut utiliser la commande 
+\entouree[gray]{\texttt{\footnotesize{String.valueOf()}}} 
+\end{Syntaxe*}
+
+\begin{EExample*}{Convertir un type primitif en entier}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	10 + "" // Vaut "10"
+	128.7 + "" // Vaut "128.7" et est de type String
+
+	String.valueOf(10) // Vaut "10"
+	boolean a = true;
+	a + "" // Vaut "true"
+	String.valueOf(a) // Vaut "true"
+\end{lstlisting}
+\end{EExample*}
+
+\begin{Syntaxe*}{Convertir un String représentant un nombre en un entier}{}
+Les commandes \entouree[gray]{\texttt{\footnotesize{TypeVoulu.parseTypevoulu}}} permet la conversion \texttt{\footnotesize{String de nombre}} $rightarrow$ \texttt{\footnotesize{int}}.
+\end{Syntaxe*}
+
+\begin{EExample*}{Conversion String de nombre $\rightarrow$ int}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	Integer.parseInt("1" + "2") // Vaut 12 et est de type int
+	Double.parseDouble("-3e-1" // Vaut -0.3 et est de type Double.
+	Integer.parseInt("bonjour") // Engendre un erreur a l'execution
+\end{lstlisting}
+\end{EExample*}
+%====================================================================
+% 
+%====================================================================
+\section{Entrées et Sorties}
+\begin{Syntaxe*}{Affichage à l'écran}{}
+On utilise \entouree[gray]{\texttt{\footnotesize{System.out.println}}} pour effectuer un saut à la ligne lors de l'affiche. La commande \entouree[gray]{\texttt{\footnotesize{System.out.print}}} affiche \textit{sans saut à la ligne}. 
+\end{Syntaxe*}
+\begin{Syntaxe*}{Interaction avec l'utilisateur}{}
+La commande \entouree[gray]{\texttt{\footnotesize{args}}} permet d'enregistrer et manipuler des arguments 
+\textit{de la ligne de commande}. La commande \entouree[gray]{\texttt{\footnotesize{Scanner}}} permet la lecture
+de données interactives. 
+\end{Syntaxe*}
+
+\begin{EExample*}{Utilisation d'arguments en ligne de commande}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	public class Hello {
+	    public static void main(String[] args) {
+		// Le code va ici
+		System.out.println("Hello, " + arg[0] + " !");
+		}
+	}
+\end{lstlisting}
+\end{EExample*}
+\begin{note}
+la variable args est un tableau de Strings. Chaque argument présenté au lancement du programme est un
+\textit{String qui est enregistré dans la variable args}. 
+\end{note}
+
+\begin{EExample*}{}{}
+\begin{lstlisting}[style=JavaDraculaWhite]
+	public class Max {
+
+	    public static void main(String[] args) {
+			int max = -1
+			
+			for (int i=0, i<args.length; i++) {
+				max = Math.max(max, Integer.parseInt(args[i]));
+			}
+
+			System.out.println("Maxumum=" + max);
+		}
+	}
+	/* Execution :
+	$ javac Max.java
+	$ java Max 1 6 3 1 5 3
+	Maximum=6
+	*/
+\end{lstlisting}
+\end{EExample*}
+%====================================================================
+% 
+%====================================================================
+\
+section{Modèle Mémoire}
+\begin{Concept*}{Mémoire d'un programme}
+Elle est conceptuellement séparée en deux partie : \textit{la pile} et \textit{le tas}.
+\end{Concept*}
+\pagebreak
+\begin{figure}[H]
+	\includegraphics[width=1.25\linewidth]{Lecture01MindMap.pdf}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
