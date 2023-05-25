@@ -94,7 +94,7 @@ public class Exercice1 {
 		for (int i = 0; i < mots.length; i++) {
 			boolean estDuplique = false;
 			for (int j = 0; j < i; j++) {
-				if (mots[i].equalsIgnoreCase(mots[j])) {
+				if (mots[i].equals(mots[j])) {
 					estDuplique = true;
 						break;
 				}
@@ -120,7 +120,7 @@ public class Exercice1 {
 		for (int i = 0; i < mots.length; i++) {
 			boolean estDuplique = false;
 			for (int j = 0; j < i; j++) {
-				if (mots[i].equalsIgnoreCase(mots[j])) {
+				if (mots[i].equals(mots[j])) {
 					estDuplique = true;
 					break;
 				}
@@ -144,12 +144,12 @@ public class Exercice1 {
      */
     public static void main(String[] args) {
 	System.out.println("# Entrée au clavier :");	
-		String[] Help = retirerDoublons(trier(lireMots()));
+		String[] afficheMots = retirerDoublons(trier(lireMots()));
 	
 
 	System.out.println("# Affichage du programme :");
-		for (int i = 0; i < Help.length ; i++) {
-		System.out.println(Help[i]);
+		for (int i = 0; i < afficheMots.length ; i++) {
+		System.out.println(afficheMots[i]);
 		
 		}
 
