@@ -60,7 +60,13 @@ public class Polynome {
                 
                 // 3.1 : On est à la fin de la chaîne et le dernier terme est une constante telle que le terme à imprimmer
                 if (aImprimmer.getExposantT() == this.dernierTerme.getExposantT() && aImprimmer.getExposantT() == 0) {
-                    stringFinal += affichageDecimale(aImprimmer.getCoeffT());
+                    if (aImprimmer.getCoeffT() != 0.0) {
+                        stringFinal += affichageDecimale(aImprimmer.getCoeffT());
+                    }
+                    // Si le dernier terme est zéro, on ne l'affiche pas.  
+                    else if (aImprimmer.getCoeffT() == 0.0) {
+                        stringFinal = stringFinal.substring(0,stringFinal.length() -3);
+                    }
        
                 }
                 // 3.2 : On est à la fin de la chaîne et le terme à imprimmer est un polynomial de degré 1
@@ -242,8 +248,7 @@ public class Polynome {
     return resultat; 
 
     }
-    //====================================================================================================
-	
+    //====================================================================================================	
     /**
      * Multiplication par une constante. Cette fonction ne modifie pas
      * le polynome actuel.
@@ -254,7 +259,17 @@ public class Polynome {
      */
     public Polynome multiplier(double c) {
         Polynome resultat = new Polynome();
-        // ...
+        
+        Terme trackerThis = this.premierTerme;
+        
+        while (trackerThis != null) {
+            Terme dummyCopy = new Terme(trackerThis.getCoeffT(), trackerThis.getExposantT(), null, null);
+            dummyCopy.multiplierCoefficient(c);
+
+            resultat.ajouter(dummyCopy.getCoeffT(), dummyCopy.getExposantT());
+            trackerThis = trackerThis.suivantT;
+        }
+
 
         return resultat;
     }
@@ -324,8 +339,23 @@ public class Polynome {
     public Polynome derivee() {
         Polynome derivee = new Polynome();
 
-        // ...
-
+        Terme trackerThis = this.premierTerme;
+        
+        while (trackerThis != null) {
+            Terme dummyCopy = new Terme(trackerThis.getCoeffT(), trackerThis.getExposantT(), null, null);
+           
+            // Cas 1 : le terme est une constante; la dérivé doit être zéro
+            if (dummyCopy.getExposantT() == 0) {
+                dummyCopy.setConstantToZero();
+            }
+            
+            // Cas 2 : Le terme n'est pas une constante
+            else if (dummyCopy.getExposantT() > 0) {
+                dummyCopy.derivationPolynomiale(); 
+            }
+            derivee.ajouter(dummyCopy.getCoeffT(), dummyCopy.getExposantT());
+            trackerThis = trackerThis.suivantT;
+        }
         return derivee;
     }
     //====================================================================================================
@@ -425,48 +455,69 @@ public class Polynome {
 
 
 
-        System.out.println("-------------------- On teste la fonction multiplier()--------------------");
+        System.out.println("-------------------- On teste la fonction multiplier(Polynome autre)--------------------");
         p = new Polynome();
         System.out.println("On réinitialise p, on appelle p.ajouter(10, 2) et p.ajouter(5, 4), puis on appelle la fonction p.multiplier(p));");
         p.ajouter(10, 2); p.ajouter(5, 4); System.out.println("p = " + p);
         assertTest(p.multiplier(p).toString().equals("25x^8 + 100x^6 + 100x^4"), "l'équivalent de (a+b)^2 = a^2 +2ab + b^2");
         System.out.println("multiplication de p par p = " + p.multiplier(p) + "\n");
-        
+
         System.out.println("-------------------- On teste la fonction additionner()--------------------");
         p = new Polynome();
         System.out.println("On réinitialise p, on appelle p.ajouter(10, 2) et p.ajouter(5, 4), puis on appelle la fonction p.additionner(p));");
-        p.ajouter(10, 2); p.ajouter(5, 4); System.out.println("p = " + p);
+        p.ajouter(10, 2); p.ajouter(5, 4); 
+        System.out.println("p = " + p);
         assertTest(p.additionner(p).toString().equals("10x^4 + 20x^2"), "le polynôme est additionné à lui-même");
         System.out.println("addition de p par p = " + p.additionner(p)+"\n");
 
         q = new Polynome();
         System.out.println("On initialise q et appelle q.ajouter(10,2), q.ajouter(25,6), q.ajouter(30,3), q.ajouter(10,0)\n");
         q.ajouter(10,2); q.ajouter(25,6); q.ajouter(30,3); q.ajouter(10,0);
+        System.out.println("q = " + q);
         
         System.out.println("On apelle ensuite q.additionner(p)");
         assertTest(q.additionner(p).toString().equals("25x^6 + 5x^4 + 30x^3 + 20x^2 + 10"),"addition de q et p");
-        System.out.println(q.additionner(p));
+        System.out.println("p + q = " + q.additionner(p) + "\n");
+
+
+        System.out.println("-------------------- On teste la fonction multiplier(Double c)--------------------");
+        System.out.println("p = " + p);
+        System.out.println("On appelle p.multiplier(10)");
+        assertTest(p.multiplier(10).toString().equals("50x^4 + 100x^2"), "multiplication de p par 10");
+        System.out.println("10 * p = " + p.multiplier(10) + "\n");
+
+        System.out.println("q = " + q);
+        System.out.println("On appelle q.multiplier(15)");
+        assertTest(q.multiplier(15).toString().equals("375x^6 + 450x^3 + 150x^2 + 150"), "multiplication de q par 15");
+        System.out.println("15 * p = " + q.multiplier(15) + "\n");
+
+        System.out.println("-------------------- On teste la fonction derivee()--------------------");
+        System.out.println("p = " + p);
+        System.out.println("On appelle p.derivee()");
+        assertTest(p.derivee().toString().equals("20x^3 + 20x"), "On a bien dérivé p"); 
+        System.out.println("La dérivée de p est dp/dx = " + p.derivee()+ "\n");
+
+        p = new Polynome();
+        p.ajouter(20,2); p.ajouter(30,0);
+        System.out.println("p = " +p);
+        System.out.println("dp/dx = " + p.derivee());
+
+        System.out.println("-------------------- Test derivee() du Prof--------------------");
+        
+        p = new Polynome(); 
+        p.ajouter(10, 2); p.ajouter(5, 4); p.ajouter(3, 2); p.ajouter(7, 0); p.ajouter(-22, 3);
+        Polynome derivee = p.derivee();
+        System.out.println("Derivée initiale (variable derivee) = " + derivee);
+
+        assertTest(derivee.toString().equals("20x^3 + -66x^2 + 26x"), "Dérivée");
+
+        derivee = p.derivee().derivee().derivee().derivee();
+        assertTest(derivee.toString().equals("120"), "Dérivée 4 fois");
+
+        derivee = p.derivee().derivee().derivee().derivee().derivee()
+                   .derivee().derivee().derivee().derivee().derivee();
+        assertTest(derivee.toString().equals("0"), "Dérivée 10 fois");
 
         
-
-
-        
-
-
-
-        
-
-        //
-        // Polynome derivee = p.derivee();
-        // assertTest(derivee.toString().equals("20x^3 + -66x^2 + 26x"), "Dérivée");
-        //
-        // derivee = p.derivee().derivee().derivee().derivee();
-        // assertTest(derivee.toString().equals("120"), "Dérivée 4 fois");
-        //
-        // derivee = p.derivee().derivee().derivee().derivee().derivee()
-        //            .derivee().derivee().derivee().derivee().derivee();
-        // assertTest(derivee.toString().equals("0"), "Dérivée 10 fois");
-
-        // TODO : écrire d'autres tests
     }
 }

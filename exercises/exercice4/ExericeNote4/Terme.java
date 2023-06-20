@@ -70,5 +70,8 @@ public class Terme {
         this.exposantT = this.exposantT - 1; 
     
     }
+    public void setConstantToZero(){
+        this.coeffT = 0.0;
+    }
 
 }
