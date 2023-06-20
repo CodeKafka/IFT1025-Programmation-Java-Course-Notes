@@ -53,29 +53,32 @@ public class Polynome {
             }
         }
         
-        // Cas 3 Polynôme contient plusieurs terme
+        // Cas 3 Polynôme contient plusieurs termes
         else{
             Terme aImprimmer = this.premierTerme;
             while(aImprimmer != null) {
                 
-                // Situation 3.1 on est à la fin de la chaîne, on omet le signe d'addition (" + ")
-                if (aImprimmer.suivantT == null && aImprimmer.getExposantT() != 0) {
+                // 3.1 : On est à la fin de la chaîne et le dernier terme est une constante telle que le terme à imprimmer
+                if (aImprimmer.getExposantT() == this.dernierTerme.getExposantT() && aImprimmer.getExposantT() == 0) {
+                    stringFinal += affichageDecimale(aImprimmer.getCoeffT());
+       
+                }
+                // 3.2 : On est à la fin de la chaîne et le terme à imprimmer est un polynomial de degré 1
+                else if (aImprimmer.getExposantT() == this.dernierTerme.getExposantT() && aImprimmer.getExposantT() == 1) {
+                    stringFinal += affichageDecimale(aImprimmer.getCoeffT()) + "x"; 
+                }
+                // 3.3 : On est à la fin de la chaîne et le terme à imprimmer un polynomial de degré > 1 
+                else if (aImprimmer.getExposantT() == this.dernierTerme.getExposantT() && aImprimmer.getExposantT() > 1) {
                     stringFinal += affichageDecimale(aImprimmer.getCoeffT()) + "x^" + aImprimmer.getExposantT();
                 }
                 
-                 // Situation 3.2 on est à la fin de la chaîne, on omet le signe d'addition et "x^0"
-                else if (aImprimmer.getExposantT() == 0) {
-                    stringFinal += affichageDecimale(aImprimmer.getCoeffT()); 
+                // 3.4 : On au milieu de la chaîne et le terme à imprimmer est un polynomial de degré 1
+                else if (aImprimmer.getExposantT() != this.dernierTerme.getExposantT() && aImprimmer.getExposantT() == 1) { 
+                    stringFinal += affichageDecimale(aImprimmer.getCoeffT()) + "x" + " + ";
                 }
-                
-                // Situation 3.4 on est pas à la fin de la chaîne et le terme à ajouter est de type x^1
-                else if (aImprimmer.getExposantT() == 1) {
-                    stringFinal += affichageDecimale(aImprimmer.getCoeffT()) + "x";
-                }
-                // Situation 3.3 on n'est pas à la fin de la chaîne.
+                // 3.5 : On est au milieu de la chaîne et le terme à imprimmer est un polynomial de degré > 1
                 else {
                     stringFinal += affichageDecimale(aImprimmer.getCoeffT()) + "x^" + aImprimmer.getExposantT() + " + ";
-
                 }
                 aImprimmer = aImprimmer.suivantT;
             }
@@ -163,15 +166,26 @@ public class Polynome {
         
         }
         //-----------------------------------------------------------------------------------------------
-        /** Cas no. 6: Le polynôme contient plus d'un terme et le terme à ajouter est plus petit que 
-         * tous les autres termes de la liste. 
+        /** Cas no. 6: Le polynôme contient plus d'un terme et le terme à ajouter a un exposant
+         * plus petit que celui de tous les autres termes de la liste. 
+
          * Il peut s'agit d'une constante ou d'un polynomial. 
          * On insère le terme à la fin de la liste et met à jour la valeur du dernier terme
          */
-        else if (this.size() > 1 && exposant == 0 || exposant < this.dernierTerme.getExposantT()) {
+        else if (this.size() > 1 && exposant < this.dernierTerme.getExposantT()) {
             Terme nouveauDernier = new Terme(coeff, exposant, null, this.dernierTerme);
             this.dernierTerme.suivantT = nouveauDernier;
             this.dernierTerme = nouveauDernier;
+        }
+        /** Cas no. 8: Le polynôme contient plus d'un terme et le terme à ajouter a un exposant 
+         *  équivalent à l'exposant du plus petit terme du polynôme
+
+         *  On met à jour le coefficient du dernier terme
+         */
+        else if (this.size() > 1 && exposant == this.dernierTerme.getExposantT()) {
+            Terme dummyDernier = new Terme(coeff, exposant, null, null);
+            this.dernierTerme.ajouteCoefficient(dummyDernier.getCoeffT());
+
         }
         //-----------------------------------------------------------------------------------------------
         /** Cas no. 7: Le polynôme contient plus d'un terme et le terme à ajouter est un polynomial
@@ -180,8 +194,13 @@ public class Polynome {
         else {
             Terme trackerThis = this.premierTerme;
             while (trackerThis != null) {
-                // Situation 7.1 : on insère un terme entre deux termes.
-                if (trackerThis.suivantT != null && exposant > trackerThis.suivantT.getExposantT()) {
+                // Situation 7.1 : on ajoute un terme déjà présent; on met à jour le coefficient. 
+                if (trackerThis.getExposantT() == exposant) {
+                    trackerThis.ajouteCoefficient(coeff);
+                    break; 
+                }
+                // Situation 7.2 : on insère un terme entre deux termes.
+                else if (trackerThis.suivantT != null && exposant > trackerThis.suivantT.getExposantT()) {
 
                     trackerThis.suivantT.precedentT = termeAAjouter;
                     termeAAjouter.suivantT = trackerThis.suivantT;
@@ -189,12 +208,7 @@ public class Polynome {
 
                     trackerThis.suivantT = termeAAjouter;
                     break;
-                }
-                // Situation 7.2 : on ajoute un terme déjà présent; on met à jour le coefficient. 
-                if (trackerThis.getExposantT() == exposant) {
-                    trackerThis.ajouteCoefficient(coeff);
-                    break; 
-                }
+                } 
             trackerThis = trackerThis.suivantT;    
             }   
         }
@@ -353,29 +367,29 @@ public class Polynome {
         p.ajouter(40,2);
         p.ajouter(40,1);
         System.out.println("On réinitialise p, on appelle p.ajouter(40,2), puis p.ajouter(40,1) — cas 3 de la méthode ");
-        assertTest(p.toString().equals("40x^2 + 40x^1"), "Deux termes; 40x^1 inséré après 40x^2");
+        assertTest(p.toString().equals("40x^2 + 40x"), "Deux termes; 40x inséré après 40x^2");
         System.out.println("p = " + p + "\n");
 
 
         p.ajouter(40, 3);
         System.out.println("On appelle p.ajotuer(40,3) — cas 4 de la méthode ");
-        assertTest(p.toString().equals("40x^3 + 40x^2 + 40x^1"), "Trois termes; 40x^3 inséré au début de la liste");
+        assertTest(p.toString().equals("40x^3 + 40x^2 + 40x"), "Trois termes; 40x^3 inséré au début de la liste");
         System.out.println("p = " + p +"\n");
 
         p.ajouter(40, 3);
         System.out.println("On appelle p.ajotuer(40,3) — cas 5 de la méthode ");
-        assertTest(p.toString().equals("80x^3 + 40x^2 + 40x^1"), "Trois termes; coefficient du premier terme mis à jour");
+        assertTest(p.toString().equals("80x^3 + 40x^2 + 40x"), "Trois termes; coefficient du premier terme mis à jour");
         System.out.println("p = " + p +"\n");
 
         p.ajouter(40, 0);
         System.out.println("On appelle p.ajotuer(40,0) — cas 6 de la méthode ");
-        assertTest(p.toString().equals("80x^3 + 40x^2 + 40x^1 + 40"), "Quatre termes; la constante est insérée à la fin de la liste");
+        assertTest(p.toString().equals("80x^3 + 40x^2 + 40x + 40"), "Quatre termes; la constante est insérée à la fin de la liste");
         System.out.println("p = " + p +"\n");
 
         p.ajouter(40, 6);
         p.ajouter(40, 5);
         System.out.println("On appelle p.ajotuer(40,6), puise p.ajouter(40,5) — cas 6 de la méthode ");
-        assertTest(p.toString().equals("40x^6 + 40x^5 + 80x^3 + 40x^2 + 40x^1 + 40"), "Six terme 40x^5 inséré entre 40x^6 et 80x^3");
+        assertTest(p.toString().equals("40x^6 + 40x^5 + 80x^3 + 40x^2 + 40x + 40"), "Six terme 40x^5 inséré entre 40x^6 et 80x^3");
         System.out.println("p = " + p +"\n");
 
 
@@ -394,6 +408,7 @@ public class Polynome {
 
         p.ajouter(5, 4);
         assertTest(p.toString().equals("5x^4 + 10x^2"), "Deux termes");
+        System.out.println(p);
 
         p.ajouter(3, 2);
         assertTest(p.toString().equals("5x^4 + 13x^2"), "Ajouter à un terme déjà présent");
@@ -422,13 +437,16 @@ public class Polynome {
         System.out.println("On réinitialise p, on appelle p.ajouter(10, 2) et p.ajouter(5, 4), puis on appelle la fonction p.additionner(p));");
         p.ajouter(10, 2); p.ajouter(5, 4); System.out.println("p = " + p);
         assertTest(p.additionner(p).toString().equals("10x^4 + 20x^2"), "le polynôme est additionné à lui-même");
-        System.out.println("addition de p par p = " + p.additionner(p));
+        System.out.println("addition de p par p = " + p.additionner(p)+"\n");
 
-        // q = new Polynome();
-        // System.out.println("On initialise q et appelle q.ajouter(10,2), q.ajouter(25,6), q.ajouter(30,3), q.ajouter(10,0)");
-        // q.ajouter(10,2); q.ajouter(25,6); q.ajouter(30,3); q.ajouter(10,0);
-        // assertTest(.ajouter(10,2).ajouter(25,6).ajouter(30,3).ajouter(10,0).toString().equals("25x^6 +
-        //
+        q = new Polynome();
+        System.out.println("On initialise q et appelle q.ajouter(10,2), q.ajouter(25,6), q.ajouter(30,3), q.ajouter(10,0)\n");
+        q.ajouter(10,2); q.ajouter(25,6); q.ajouter(30,3); q.ajouter(10,0);
+        
+        System.out.println("On apelle ensuite q.additionner(p)");
+        assertTest(q.additionner(p).toString().equals("25x^6 + 5x^4 + 30x^3 + 20x^2 + 10"),"addition de q et p");
+        System.out.println(q.additionner(p));
+
         
 
 
