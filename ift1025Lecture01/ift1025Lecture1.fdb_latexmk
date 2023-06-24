@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1683835465 "ift1025Lecture1.tex" "ift1025Lecture1.pdf" "ift1025Lecture1" 1683835468
+["pdflatex"] 1687640198 "ift1025Lecture1.tex" "ift1025Lecture1.pdf" "ift1025Lecture1" 1687640201
   "/etc/texmf/web2c/texmf.cnf" 1674180676 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/libris/t1-cfr-yly.enc" 1278978821 3112 201a43372386144664ec39945b566a11 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -344,12 +344,12 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1674180706 4379155 98693266ff65f58d9f98aff394de12d2 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1674180741 2798926 b564db4653efb4d4b92fdc2de7fab700 ""
-  "Lecture01MindMap.pdf" 1683829395 4748250 cb85ea3a52dbbb25b11f639edb593ef8 ""
+  "Lecture01MindMap.pdf" 1687640148 5201726 ee4ddfe70dbc11e1e498553dc91dcc35 ""
   "StringLexico.png" 1683546615 150318 283b64073dc3ecb40e933460913081e0 ""
-  "ift1025Lecture1.aux" 1683835468 4964 67a7b7b7c0dac3482c6431816584b585 "pdflatex"
-  "ift1025Lecture1.tex" 1683835465 27750 3fe4c86c525d45d0fcf83d3684b33220 ""
-  "ift1025Lecture1.toc" 1683835468 678 5668f5ad5d340e6f4eb42bace99701f2 "pdflatex"
-  "preamble.tex" 1683646019 26557 deaff23eb8e9023c3105073838725182 ""
+  "ift1025Lecture1.aux" 1687640201 4964 67a7b7b7c0dac3482c6431816584b585 "pdflatex"
+  "ift1025Lecture1.tex" 1687640182 27773 edb2661cde09fd038be9bdb0f51888f8 ""
+  "ift1025Lecture1.toc" 1687640201 678 5668f5ad5d340e6f4eb42bace99701f2 "pdflatex"
+  "preamble.tex" 1685243962 26557 deaff23eb8e9023c3105073838725182 ""
   (generated)
   "ift1025Lecture1.aux"
   "ift1025Lecture1.log"
